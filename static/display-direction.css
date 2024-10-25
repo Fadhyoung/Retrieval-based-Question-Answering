@@ -1,0 +1,119 @@
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+.w-1 {width: 10%;}
+.w-2 {width: 20%;}
+.w-3 {width: 30%;}
+.w-4 {width: 40%;}
+.w-5 {width: 50%;}
+.w-6 {width: 60%;}
+.w-7 {width: 70%;}
+.w-8 {width: 80%;}
+.w-9 {width: 90%;}
+.w-10 {width:100%;}
+.w-max {width: 100%;}
+
+.h_max {height: 200px;}
+
+.p-1 {padding: 10px;}
+.p-2 {padding: 20px;}
+.p-3 {padding: 30px;}
+.p-4 {padding: 40px;}
+.p-5 {padding: 50px;}
+.p-6 {padding: 60px;}
+.p-7 {padding: 70px;}
+.p-8 {padding: 80px;}
+.p-9 {padding: 90px;}
+.p-10 {padding:100px;}
+
+.my-1 {margin: 10px 0;}
+.my-2 {margin: 20px 0;}
+.my-3 {margin: 30px 0;}
+.my-4 {margin: 40px 0;}
+.my-5 {margin: 50px 0;}
+.my-6 {margin: 60px 0;}
+.my-7 {margin: 70px 0;}
+.my-8 {margin: 80px 0;}
+.my-9 {margin: 90px 0;}
+.my-10 {margin:100px 0;}
+
+.br-1 {border-radius: 1px;}
+.br-2 {border-radius: 2px;}
+.br-3 {border-radius: 3px;}
+.br-4 {border-radius: 4px;}
+.br-5 {border-radius: 5px;}
+.br-6 {border-radius: 6px;}
+.br-7 {border-radius: 7px;}
+.br-8 {border-radius: 8px;}
+.br-9 {border-radius: 9px;}
+.br-10 {border-radius: 10px;}
+
+.gap1 {gap: 1px;}
+.gap5 {gap: 5px;}
+.gap10 {gap: 10px;}
+.gap15 {gap: 15px;}
+.gap20 {gap: 20px;}
+
+.item_center {align-items: center;}
+.item_left {align-items: start;}
+.item_right {align-items: end;}
+.stretch {align-items: stretch;}
+
+.f_grow{flex-grow: 1;}
+
+.f_sb {
+    justify-content: space-between;
+}
+
+.f_around {
+    justify-content: space-around;
+}
+
+.f_center {
+    justify-content: center;
+}
+
+.f-left {
+    justify-content: start;
+}
+
+.f-right {
+    justify-content: end;
+    align-items: end;
+}
+
+.no_wrap {
+    white-space: nowrap;
+}
+
+.grey {background-color: #F4F4F4; color: black;}
+.darkgrey{background-color: grey; color: white;}
+.red {background-color: red;}
+.lightblue { background-color: rgb(227, 255, 255); }
+.green {background-color: #25C16E;}
+.white {background-color: white;}
+
+.bold {font-weight: bold;}
+.text_left {text-align: left;}
+.text_center {text-align: center;}
+
+.button1 {
+    cursor: pointer;;
+    padding: 15px 30px;
+    border: 0;
+    border-radius: 5px;
+}
+
+.button2 {
+    cursor: pointer;;
+    padding: 15px 30px;
+    border: 1px #25C16E solid;
+    border-radius: 5px;
+}

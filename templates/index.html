@@ -1,0 +1,246 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Universitas Jember Customer Care</title> 
+    <link rel="stylesheet" href="\static\style.css">
+    <link rel="stylesheet" href="\static\table.css">
+    <link rel="stylesheet" href="\static\display-direction.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="\static\script.js"></script>
+
+</head> 
+<body> 
+
+    <!-- LOADING SCREEN -->
+    <div class="loading_screen" id="loading_screen">
+        <div class="loading_box">
+            <h4>Please Wait For Yur Result</h4>
+            <img src="\static\gif1.gif" alt="Loading..." class="loading-gif">
+        </div>
+    </div>
+    
+
+    <!-- NOT RETRIEV SCREEN -->
+     <div class="not_retrieve_screen" id="not_retrieve_screen">
+        <div class="not_retrieve_box">
+            Answer Obtained, but it's might not that relevant
+            <img src="\static\gif2.gif" alt="Loading..." class="loading-gif">
+            <div class="row w-10 f_around gap10">
+                <button class="white button2" onclick="close_screen()">See Result</button>
+                <button class="green button1 bold" onclick="goToUC3()">Go To UC3</button>
+            </div>
+        </div>
+     </div>
+
+    <!-- NAVBAR 1 -->
+    <section>
+        <div class="header">
+            <div>
+                <ul>
+                    <li id="nav-li-icon"><img src="static/uc3.png" alt="Topik Icon"></li>
+                </ul>
+            </div>
+            <div>
+                <button id="dropdown-button">Menu</button>
+                <div class="dropdown-content" id="dropdown-content">
+                    <a href="#">Topik Aduan</a>
+                    <a href="#">Aduan Internal</a>
+                    <a href="#">Login Narahubung</a>
+                    <a href="#">Aduan Publik</a>
+                    <a href="#">Cek Status Aduan</a>
+                    <a href="#">F.A.Q</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <br><br>
+
+    <main class="gap20">
+
+        <!-- CONTAINER FORM -->
+        <div class="input_section">
+            <h2>Question Answering Retrieval System</h2>
+            <div class="input-container">
+                <form id="question-form">
+                    <input type="text" name="query" class="input-field" id="query" placeholder="Search...">
+                    <button class="clear-button" type="button" onclick="clear_input()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <button class="ask-button" type="submit" onclick="ask_question()">Ask</button>
+                </form>
+            </div>
+        </div>
+
+        <br>
+
+        <!-- TRESHOLD SECTION -->
+        <div class="col w-4 item_center gap5" id="treshold_section">
+            <div class="row text_center">
+                <h3 class="text_center">Choose Trehsold Here</h3>
+            </div>
+            <div class="row w-10 f_sb">
+                <button class="model_button  active_button" type="button" id="t1" onclick="configurationButton(this.id, 'treshold')">Default</button>
+                <button class="model_button" type="button" id="t2" onclick="configurationButton(this.id, 'treshold')">0.75</button>
+                <button class="model_button" type="button" id="t3" onclick="configurationButton(this.id, 'treshold')">0.50</button>
+                <button class="model_button" type="button" id="t4" onclick="configurationButton(this.id, 'treshold')">0.25</button>
+            </div>
+        </div>
+
+        <!-- MODEL SECTION -->
+        <div class="col item_center w-9 gap5">
+            <div class="row"><h2>Choose Model:</h2></div>
+            <div class="row f-sb item_center gap10">
+                <button class="model_button active_button" type="button" id="m1" onclick="configurationButton(this.id, 'model')">T5-Base-0.12</button>
+                <button class="model_button" type="button" id="m2" onclick="configurationButton(this.id, 'model')">T5-Small-0.23</button>
+                <button class="model_button" type="button" id="m3" onclick="configurationButton(this.id, 'model')">T5-Small-0.21</button>
+                <button class="model_button" type="button" id="m4" onclick="configurationButton(this.id, 'model')">T5-Small-0.22</button>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="result_container p-2 w-10 " id="result_container">
+            <div class="row w-10 my-1 item_center gap5 stretch" id="detail_result_container">
+                <div class="col f_center w-1" id="query_tag">Query:</div>
+                <div class="col f_center w-8 grey p-2 br-10" id="user_query"></div>
+                <div class="col f_center w-1 br-10 indicator" id=""></div>
+            </div>
+            <div class="row w-10 my-1 item_center gap5 stretch" id="detail_result_container">
+                <div class="col f_center w-1 " id="answer_tag">Answer:</div>
+                <div class="col f_center w-8 grey p-2 br-10" id="answer_text"></div>
+                <div class="col f_center w-1 br-10 indicator" id=""></div>
+            </div>
+            <div class="row w-10 text_center br-5 p-2 f_center" id="treshold_score"></div>
+        </div>
+
+        <br>
+            
+        <!--
+            Display True Question
+            Display True Answer
+            Display Cosine similarity between actual question and retrieved question
+            Display BLEU, ROUGE metric between retrieved question and true question
+        -->
+        <button class="model_button w-10" onclick="analyze()">Analyze The Result</button>
+
+        <div class="loading" id="analyze_loading" style="display: none;">
+            Please wait for your result...
+        </div>
+
+        <div class="analyze_container p-3 w-10" id="analyze_container">
+
+            <div class="span2 w-10">ANALYZE RETRIEVED QUESTION</div>
+            <div class="row w-10 my-1 item_center gap5 stretch" id="query_part1">
+                <div class="col f_center w-2 span1 darkgrey" id="query_tag">User Query</div>
+                <div class="col f_center w-7 grey p-2 br-10" id="inputed_query"></div>
+                <div class="col f_center w-1 green br-10" id="indicator">x</div>
+            </div>
+            <div class="row w-10 my-1 item_center gap5 stretch" id="paraphrase_analyze_part1">
+                <div class="col f_center w-2 span1 darkgrey" id="actual_question_tag">Actual Question</div>
+                <div class="col f_center w-7 grey p-2 br-10" id="actual_question"></div>
+                <div class="col f_center w-1 green br-10" id="indicator">x</div>
+            </div>
+            <div class="row w-10 my-1 item_center gap5 stretch" id="paraphrase_analyze_part1">
+                <div class="col f_center w-2 span1 darkgrey" id="retrieved_question_tag">Retrieved Question</div>
+                <div class="col f_center w-7 grey p-2 br-10" id="retrieved_question"></div>
+                <div class="col f_center w-1 green br-10" id="indicator">x</div>
+            </div>
+
+            <div class="span2 w-10" >ANALYZE PARAPHRASE RESULT</div>
+            <div class="span2 w-10" id="choosed_model"></div>
+            <div class="row w-10 my-1 item_center gap5 stretch" id="paraphrase_analyze_part1">
+                <div class="col f_center w-2 span1 darkgrey" id="retrieved_answer_tag">Retrieved Answer</div>
+                <div class="col f_center w-7 grey p-2 br-10" id="retrieved_answer"></div>
+                <div class="col f_center w-1 green br-10" id="indicator">x</div>
+            </div>
+            <div class="row w-10 my-1 item_center gap5 stretch" id="paraphrase_analyze_part1">
+                <div class="col f_center w-2 span1 darkgrey" id="paraphrased_answer_tag">Paraphrased Answer</div>
+                <div class="col f_center w-7 grey p-2 br-10" id="paraphrased_answer"></div>
+                <div class="col f_center w-1 green br-10" id="indicator">x</div>
+            </div>
+            
+            
+            
+            <div class="span2 w-10" onclick="analyze()">ANALYZE BY METRIC</div>
+            <div class="row w-10" id="paraphrase_analyze_part2">
+                <div class="row w-5">
+                    <div class="col w-4 f_grow item_left f_around bold" id="paraphrase_analyze_part3">
+                        <div class="row my-1 item_center">Retrieved Question Id:&emsp; </div>
+                        <div class="row my-1">Actual Question Id:&emsp;</div>
+                        <div class="row my-1">Cosine Similairty Score:&emsp;</div>
+                        <div class="row my-1">BLEU Score:&emsp;</div>
+                        <div class="row my-1">ROUGE Score:&emsp;</div>
+                    </div>
+                    <div class="col w-1 f_grow item_left gap10" id="paraphrase_analyze_part3">
+                        <span class="span1" id="retrieved_id"></span>
+                        <span class="span1" id="actual_id"></span>
+                        <span class="span1" id="similarity_between_question"></span>
+                        <span class="span1" id="BLEU_between_question"></span>
+                        <span class="span1" id="ROUGE_between_question"></span>
+                    </div>
+                </div>
+                <div class="row w-5">
+                    <div class="col w-5 f_grow f_around gap10">
+                        <div class="row w-10">
+                            <span class="span1 darkgrey w-10" >T5 Paraphrase Evaluation</span>
+                        </div>
+                        <div class="row w-10 ">
+                            <p class="text_left">This is the evaluation between <b>retrieved answer</b> and <b>paraphrased answer</b> through T5 model</p>
+                        </div>
+                        <div class="row">
+                            <div class="col w-8 f_grow item_left f_around bold ">
+                                <div class="row my-1">Cosine Similarity:&emsp;</div>
+                                <div class="row my-1">BLEU Score:&emsp;</div>
+                                <div class="row my-1">ROUGE Score:&emsp;</div>
+                            </div>
+                            <div class="col w-2 f_grow f-sb item_right gap10">
+                                <span class="span1 w-10" id="similarity_between_answer"></span>
+                                <span class="span1 w-10" id="BLEU_between_answer"></span>
+                                <span class="span1 w-10" id="ROUGE_between_answer"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GET OTHER COONTAINER -->
+        <button class="model_button w-10" onclick="get_other()">Show 5 Most Simillar With Query</button>
+        <div class="get_other_container" id="get_other_container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data Id</th>
+                        <th>Similarity Score</th>
+                        <th>Question</th>
+                        <th>Answer</th>
+                        <th>BLEU Score</th>
+                        <th>ROUGE Score</th>
+                    </tr>
+                </thead>
+                <tbody id="get_other">
+                </tbody>
+            </table>
+        </div>
+        
+        <button class="model_button w-10" onclick="get_question()">Show Referance Question</button>
+        <!-- QUESTION COONTAINER -->
+        
+        <div class="question_container" id="question_container">
+            <h3>Question Reference: </h3>          
+        </div>
+
+    </main> 
+
+    <footer> 
+        <p>&copy; 2023 Fadhli Nur Himawan</p> 
+    </footer> 
+
+</body> 
+</html>
